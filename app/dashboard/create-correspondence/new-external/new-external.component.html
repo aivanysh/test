@@ -1,0 +1,246 @@
+<div class="new_edt_cont_wrapper">
+  <div class="correspondence_detail"  *ngIf="expandedRightAction" [ngClass]="expandedAction ? 'unActive' : 'ActiveLeft'">
+    <button (click)="expandeActionLeftButton()" matRipple class="corsp_ext_btn">
+      <img src="assets/images/icons/full-screen.svg" alt="">
+    </button>
+    <div class="detail_header">
+        <div class="header_text"  *ngFor="let correspondenceDetails of correspondenceDetailsData">
+          <div class="header_back_cpd_dtl">
+            <button class="back_btn" (click)="backNavigation()">
+              <img src="../../assets/images/icons/left_arrow.svg" alt="">
+            </button>
+            <h3 class="text_23 ltg_text" *ngFor="let senderData of correspondenceDetails.myRows">External - 
+                {{senderData.PWAReference}}
+            </h3>
+          </div>
+          <div class="user_name">
+            <div class="user_img">
+              <img src="assets/images/icons/profile.svg" alt="">
+            </div>
+            <p class="text_15" *ngFor="let senderData of correspondenceDetails.myRows"> {{senderData.SenderName}}</p>
+          </div>
+        </div>
+        <div class="header_btn">
+          <button class="btn btn_005">
+            <img src="assets/images/icons/back-arrow.svg" alt="">
+          </button>
+          <button class="btn btn_005">
+            <img src="assets/images/icons/check-box.svg" alt="">
+          </button>
+          <button class="btn btn_005">
+            <img src="assets/images/icons/save-button.svg" alt="">
+          </button>
+          <button class="btn btn_005">
+            <img src="assets/images/icons/close_btn_icon.svg" alt="">
+          </button>
+        </div>
+    </div>
+    <div class="sender_wrapper corspnt_item">
+      <div class="acdn_open_header">
+        <div class="icon_wrapper">
+          <div class="icon_typ icon_typ_001">
+            <img src="assets/images/icons/sender_mail_icon.svg" alt="">
+          </div>
+        </div>
+        <p class="title_001">Sender</p>
+      </div>
+      <div class="corres_data_area">
+        <div class="corres_table_wrapper">
+          <table class="table">
+            <tr>
+              <th>Organization</th>
+              <th>Department</th>
+              <th>Name</th>
+            </tr>
+            <tr *ngFor="let correspondenceDetails of correspondenceDetailsData">
+              <td *ngFor="let senderData of correspondenceDetails.myRows">{{senderData.ExternalOrganization}} </td>
+              <td *ngFor="let senderData of correspondenceDetails.myRows"> {{senderData.SenderDepartment}} </td>
+              <td *ngFor="let senderData of correspondenceDetails.myRows"> {{senderData.SenderName}} </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="recipient_wrapper corspnt_item">
+      <div class="acdn_open_header">
+        <div class="icon_wrapper">
+          <div class="icon_typ icon_typ_002">
+            <img src="assets/images/icons/add-user.svg" alt="">
+          </div>
+        </div>
+        <p class="title_001">Recipient</p>
+      </div>
+      <div class="corres_data_area">
+        <div class="corres_table_wrapper">
+          <table class="table">
+            <tr>
+              <th>Organization</th>
+              <th>Department</th>
+              <th>Role</th>
+              <th>Name</th>
+              <th class="btn_td_wrp"> </th>
+            </tr>
+            <tr *ngFor="let correspondenceRecipientsDetails of correspondenceDetailsData">
+              <td *ngFor="let recipientData of correspondenceRecipientsDetails.myRows">{{recipientData.OrganizationName_EN}} </td>
+              <td>
+                <div class="input_item_wrp sm_input_wrapper">
+                  <mat-form-field class="input_tbl_wrp">
+                    <input type="text" aria-label="Number" matInput [formControl]="recipientControl" [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                      <mat-option *ngFor="let optiont of recipientFilteredOptions | async" [value]="optiont">
+                        {{optiont}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </td>
+              <td>
+                Role 1
+              </td>
+              <td *ngFor="let recipientData of correspondenceRecipientsDetails.myRows">
+                <div class="input_item_wrp sm_input_wrapper">
+                  <mat-form-field class="input_tbl_wrp">
+                    <input type="text" aria-label="Number" matInput [formControl]="recipientControl" [matAutocomplete]="auto">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                      <mat-option *ngFor="let optiont of recipientFilteredOptions | async" [value]="optiont">
+                        {{optiont}}
+                      </mat-option>
+                    </mat-autocomplete>
+                  </mat-form-field>
+                </div>
+              </td>
+              <td class="btn_td_wrp">
+                <button class="remove_btn_002" mat-button>
+                  <img src="assets/images/icons/remove_icon_001.svg" alt="">
+                </button>
+              </td>
+            </tr>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="corp_dtl_btn_btm_wrapper">
+      <button class="btn_008">Save As Draft</button>
+      <button class="btn_008">Start Collaboration</button>
+      <button class="btn_008">Send For Approval</button>
+      <button class="btn_008" (click)="backNavigation()">Back</button>
+      <button (click)="expandeActionLeftButton()" matRipple class="corsp_ext_btn">
+        <img src="assets/images/icons/full-screen.svg" alt="">
+      </button>
+  </div>
+</div>
+<div class="correspondence_deatil_prview_wrappper"  [ngClass]="expandedRightAction ? 'unActive' : 'ActiveRight'" *ngIf="expandedAction">
+    <button (click)="expandeActionRightButton()" matRipple class="corsp_ext_btn">
+      <img src="assets/images/icons/full-screen.svg" alt="">
+    </button>
+    <h3 class="org_chrt_head">Select Recipient From Organizational Chart</h3>
+    <div class="org_cht_header">
+        <div class="search_wrapper">
+            <input class="org_search" type="text" placeholder="ASHGAL Public Work authority"  #organizationalChartSearch
+      (keyup.enter)="addHero(organizationalChartSearch.value)"
+      (blur)="addHero(organizationalChartSearch.value); organizationalChartSearch.value='' ">
+            <button (click)="addHero(organizationalChartSearch.value)" class="search_btn"></button>
+        </div>
+        <div class="right_org_head">
+          <mat-checkbox class="chk_emply" [(ngModel)]="showEmployees">Show Employees</mat-checkbox>
+          <button mat-button class="btn_001">Add</button>
+        </div>
+    </div>
+    <div class="cover_ltr_pre">
+      <!-- <div *ngFor="let coverData of correspondenceCoverDetails.myRows"> -->
+        <mat-tree [dataSource]="dataSource" [treeControl]="treeControl" class="tree_container" [ngClass]="{'show_employees': showEmployees, 'hide_employess':!showEmployees }">
+          <!-- This is the tree node template for leaf nodes -->
+            <mat-tree-node *matTreeNodeDef="let node" class="employees_wrapper">
+              <div class="main_tree_wrapper">
+                <div class="mat-tree-node">
+                  <div class="tree_icn_wrp flex_empl_wrp">
+                    <!--  (click)="getEmplDetail(node)" -->
+                    <button mat-icon-button matTreeNodeToggle class="emp_sho_btn">
+                      <mat-icon class="mat-icon-rtl-mirror show_employees_data_btn" [ngClass]="{'activeIcon' : treeControl.isExpanded(node)}">
+                          <!--   -->
+                        {{treeControl.isExpanded(node) ? 'fiber_manual_record' : 'fiber_manual_record'}}
+                      </mat-icon>
+                    </button>
+                    <mat-checkbox (change)="selectSinglCheckbox(node)" [checked]="currentlyChecked == node">
+                      <!-- (change)="getOrgSelectDetail(node)"  -->
+                      <div class="org_text_wrp">
+                        <div class="org_icon_wrp folder">
+                          <img class="org_img_001" src="../../assets/images/icons/folder_001.svg" alt="">
+                        </div>
+                        <p class="org_chart_text">{{node.Name}}</p>
+                      </div>
+                    </mat-checkbox>
+                    <pre>
+                    </pre>
+                    <div *ngIf="showEmployees" class="show_empl_name_wrp">
+                        <ul *ngIf="treeControl.isExpanded(node)" class="show_empl_name_ul">
+                          <li class="show_empl_name">
+                            <mat-checkbox (change)="selectSinglCheckbox(node)" [checked]="currentlyChecked == node">
+                              <div class="org_text_wrp">
+                                  <div class="org_icon_wrp user">
+                                    <img class="org_img_001" src="../../assets/images/icons/user.svg" alt="">
+                                  </div>
+                                <p class="org_chart_text">{{node.Name}}</p>
+                              </div>
+                            </mat-checkbox>
+                          </li>
+                          <li class="show_empl_name">
+                            <mat-checkbox (change)="selectSinglCheckbox(node)" [checked]="currentlyChecked == node">
+                              <div class="org_text_wrp">
+                                  <div class="org_icon_wrp user">
+                                    <img class="org_img_001" src="../../assets/images/icons/user.svg" alt="">
+                                  </div>
+                                <p class="org_chart_text">{{node.Name}}</p>
+                              </div>
+                            </mat-checkbox>
+                          </li>
+                          <li class="show_empl_name">
+                            <mat-checkbox (change)="selectSinglCheckbox(node)" [checked]="currentlyChecked == node">
+                              <div class="org_text_wrp">
+                                  <div class="org_icon_wrp user">
+                                    <img class="org_img_001" src="../../assets/images/icons/user.svg" alt="">
+                                  </div>
+                                <p class="org_chart_text">{{node.Name}}</p>
+                              </div>
+                            </mat-checkbox>
+                          </li>
+                        </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </mat-tree-node>
+          <!-- This is the tree node template for expandable nodes -->
+          <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild" class="main_tree_wrapper">
+            <!--  -->
+            <div class="full_fil_wrapper">
+              <div class="mat-tree-node">
+                <div class="tree_icn_wrp">
+                  <div class="{{node.employees_status}}">
+                    <button *ngIf="node.children.length > 0" mat-icon-button matTreeNodeToggle [attr.aria-label]="'toggle ' + node.Name">
+                      <mat-icon class="mat-icon-rtl-mirror" [ngClass]="{'activeIcon' : treeControl.isExpanded(node)}">
+                        <!-- {{treeControl.isExpanded(node) ? 'fiber_manual_record' : 'fiber_manual_record'}} -->
+                        {{treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right'}}
+                      </mat-icon>
+                    </button>
+                  </div>
+                  <mat-checkbox (change)="selectSinglCheckbox(node)" [checked]="currentlyChecked == node">
+                    <div class="org_text_wrp">
+                      <div class="org_icon_wrp folder">
+                        <img class="org_img_001" src="../../assets/images/icons/folder_001.svg" alt="">
+                      </div>
+                      <p class="org_chart_text">{{node.Name}}</p>
+                    </div>
+                  </mat-checkbox>
+                </div>
+              </div>
+              <div [class.node_wrapper_invisible]="!treeControl.isExpanded(node)" class="tree_nested_node_child hide_employess">
+                <ng-container matTreeNodeOutlet></ng-container>
+              </div>
+            </div>
+          </mat-nested-tree-node>
+        </mat-tree>
+      <!-- </div> -->
+    </div>
+  </div>
+</div>
