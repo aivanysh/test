@@ -13,6 +13,7 @@ import { ConfirmationDialogComponent } from 'src/app/dashboard/confirmation-dial
 import { StatusRequest, SetStatusRow } from 'src/app/dashboard/models/Shared.model';
 import { BaseDashboardComponent } from '../base-dashboard/base-dashboard.component';
 // import { SearchFilters } from '../../services/dasboardsearch.model';
+import { DataSharingService } from "../../services/data-sharing.service";
 
 @Component({
   selector: 'app-base-dashboard-active',
@@ -25,10 +26,12 @@ export class BaseDashboardActiveComponent extends BaseDashboardComponent impleme
   public dialogU: MatDialog,
   public correspondenceService: CorrespondenceService,
   public correspondenceShareService: CorrespondenceShareService,
-  public errorHandlerFctsService: ErrorHandlerFctsService
+  public errorHandlerFctsService: ErrorHandlerFctsService,
+  public dataSharingService: DataSharingService
   ) {
-    super(router, dialogU, correspondenceService, errorHandlerFctsService );
-  }
+    super(router, dialogU, correspondenceService, errorHandlerFctsService, dataSharingService );
+  } 
+
 
   ngOnInit() {
     console.log('init intermidiate component');

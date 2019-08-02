@@ -7,6 +7,8 @@ import { BaseDashboardActiveComponent } from 'src/app/dashboard/base-classes/bas
 import { ErrorHandlerFctsService } from 'src/app/dashboard/services/error-handler-fcts.service';
 import { CorrespondenceShareService } from 'src/app/dashboard/services/correspondence-share.service';
 
+import { DataSharingService } from "../../services/data-sharing.service";
+
 @Component({
   selector: 'app-inprogress-intoutbounds',
   templateUrl: './in-progress-intioutbounds.component.html',
@@ -20,9 +22,10 @@ export class InprogressIntOutboundComponent extends BaseDashboardActiveComponent
       public dialogU: MatDialog,
       public correspondenceService: CorrespondenceService,
       public correspondenceShareService: CorrespondenceShareService,
-      public errorHandlerFctsService: ErrorHandlerFctsService
+      public errorHandlerFctsService: ErrorHandlerFctsService,
+      public dataSharingService: DataSharingService
     ) {
-      super(router, dialogU, correspondenceService, correspondenceShareService, errorHandlerFctsService);
+      super(router, dialogU, correspondenceService, correspondenceShareService, errorHandlerFctsService, dataSharingService);
       this.reportType = 'IntOutSig';
     }
 

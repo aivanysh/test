@@ -5,6 +5,8 @@ import { MatDialog } from '@angular/material';
 import { CorrespondenceService } from 'src/app/dashboard/services/correspondence.service';
 import { BaseDashboardComponent } from 'src/app/dashboard/base-classes/base-dashboard/base-dashboard.component';
 import { ErrorHandlerFctsService } from '../../services/error-handler-fcts.service';
+import { DataSharingService } from "../../services/data-sharing.service";
+
 
 @Component({
   selector: 'app-achieved-intoutbounds',
@@ -17,9 +19,10 @@ export class AchievedIntOutboundComponent extends BaseDashboardComponent impleme
     public router: Router,
     public dialogU: MatDialog,
     public correspondenceService: CorrespondenceService,
-    public errorHandlerFctsService: ErrorHandlerFctsService
+    public errorHandlerFctsService: ErrorHandlerFctsService,
+    public dataSharingService: DataSharingService
   ) {
-      super(router, dialogU, correspondenceService, errorHandlerFctsService);
+      super(router, dialogU, correspondenceService, errorHandlerFctsService, dataSharingService);
       this.reportType = 'IntOutArc';
   }
 

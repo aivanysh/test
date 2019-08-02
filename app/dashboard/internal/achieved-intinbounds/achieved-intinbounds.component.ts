@@ -6,6 +6,9 @@ import { CorrespondenceService } from 'src/app/dashboard/services/correspondence
 import { BaseDashboardComponent } from '../../base-classes/base-dashboard/base-dashboard.component';
 import { ErrorHandlerFctsService } from '../../services/error-handler-fcts.service';
 
+import { DataSharingService } from "../../services/data-sharing.service";
+
+
 @Component({
   selector: 'app-achieved-intinbounds',
   templateUrl: './achieved-intinbounds.component.html',
@@ -17,9 +20,10 @@ export class AchievedIntInboundComponent extends BaseDashboardComponent implemen
     public router: Router,
     public dialogU: MatDialog,
     public correspondenceService: CorrespondenceService,
-    public errorHandlerFctsService: ErrorHandlerFctsService
+    public errorHandlerFctsService: ErrorHandlerFctsService,
+    public dataSharingService: DataSharingService
   ) {
-      super(router, dialogU, correspondenceService, errorHandlerFctsService);
+      super(router, dialogU, correspondenceService, errorHandlerFctsService, dataSharingService);
       this.reportType = 'IntInbArc';
   }
 

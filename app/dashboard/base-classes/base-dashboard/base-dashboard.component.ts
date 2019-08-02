@@ -17,6 +17,9 @@ import { ConfirmationDialogComponent } from 'src/app/dashboard/confirmation-dial
 import { StatusRequest, SetStatusRow } from 'src/app/dashboard/models/Shared.model';
 // import { SearchFilters } from '../../services/dasboardsearch.model';
 
+import { DataSharingService } from "../../services/data-sharing.service";
+import { MenuCountInt, MenuItemsInfo} from "../../services/data-sharing.model"
+
 @Component({
   selector: 'app-base-dashboard',
   templateUrl: './base-dashboard.component.html'
@@ -75,17 +78,77 @@ export class BaseDashboardComponent implements OnInit {
   searchExtOrgFieldShow: boolean;
   searchSenderDeptFieldShow: boolean;
   searchRecipientDeptFieldShow: boolean;
+  //Items Count Variables
+  itemsCount: MenuCountInt;
+  fullPageNumber: string;
+
 
   constructor(
     public router: Router,
     public dialogU: MatDialog,
     public correspondenceService: CorrespondenceService,
-    public errorHandlerFctsService: ErrorHandlerFctsService
+    public errorHandlerFctsService: ErrorHandlerFctsService,
+    public dataSharingService: DataSharingService
   ) { }
 
   ngOnInit() {
     console.log('init component - ' + this.reportType);
     this.getPage(this.pagenumber);
+    this.setItemCount();
+  }
+
+  setItemCount(){
+    let InbArray = ['IntInbNew','IntInbAck','IntInbArc','ExtInbArc','ExtInbNew','ExtInbAck',]
+    let OutArray = ['IntOutWIP','IntOutSig','IntOutArc','ExtOutSig','ExtOutArc','ExtOutWIP']
+    let dashname: string;
+    this.dataSharingService.currentItemsCount.subscribe(itemsCount => {
+      this.itemsCount = itemsCount;
+      if(InbArray.includes(this.reportType) && (typeof this.itemsCount != 'undefined')){
+        switch(this.reportType){
+          case 'IntInbNew': dashname = "new-intinbounds"
+            break;
+          case 'IntInbAck': dashname = "inProgress-intinbounds"
+            break;
+          case 'IntInbArc': dashname = "archieved-intinbounds"
+            break;
+             case 'ExtInbNew': dashname = "new-inbounds" 
+            break;
+          case 'ExtInbAck': dashname = "inProgress-inbounds"
+            break;
+          case 'ExtInbArc': dashname = "archieved-inbounds"
+            break; 
+          default: dashname = 'undefined'
+        }
+        if(Array.isArray(this.itemsCount.inbounds)){
+          this.itemsCount.inbounds.forEach((element)=>{
+            element.router == dashname ? this.fullPageNumber = element.Count : null
+          })
+        } 
+      }
+      if(OutArray.includes(this.reportType) && (typeof this.itemsCount != 'undefined')){
+        switch(this.reportType){
+          case 'ExtOutWIP': dashname = "new-outbounds"
+            break;
+          case 'ExtOutSig': dashname = "inProgress-outbounds"
+            break;
+          case 'ExtOutArc': dashname = "archieved-outbounds"
+            break; 
+            case 'IntOutWIP': dashname = "new-intoutbounds" 
+            break;
+          case 'IntOutSig': dashname = "inProgress-intoutbounds"
+            break;
+          case 'IntOutArc': dashname = "archieved-intoutbounds" 
+            break; 
+          default: dashname = 'undefined'
+        }
+        if(Array.isArray(this.itemsCount.outbounds)){
+          this.itemsCount.outbounds.forEach((element)=>{
+            element.router == dashname ? this.fullPageNumber = element.Count : null
+
+          })
+        } 
+      }
+    })
   }
 
   AdvancedSearchButton() {

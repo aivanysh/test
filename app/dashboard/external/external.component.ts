@@ -1,7 +1,7 @@
 import { Component, OnInit, AfterViewInit } from '@angular/core';
 import { HttpErrorResponse, HttpClient } from '@angular/common/http';
 import { FCTSDashBoard } from '../../../environments/environment';
-
+import { DataSharingService } from "../services/data-sharing.service";
 @Component({
   selector: 'app-external',
   templateUrl: './external.component.html'
@@ -12,8 +12,11 @@ export class ExternalComponent implements OnInit, AfterViewInit {
   basehref: String = FCTSDashBoard.BaseHref;
   menuAction = true;
   scrollbarOptions = { axis: 'yx', theme: 'minimal-dark' };
+  itemsCount: any;
 
-  constructor(private httpService: HttpClient) { }
+
+  constructor( private httpService: HttpClient
+              ,private _dataSharingService: DataSharingService) { }
   menuItems: string[];
 
   ngOnInit() {
@@ -39,6 +42,8 @@ export class ExternalComponent implements OnInit, AfterViewInit {
       .subscribe(
       data => {
         this.menuItems = data as string[];
+        this.itemsCount = data;
+        this.itemsCountShare();
       },
       (err: HttpErrorResponse) => {
         console.log(err.message);
@@ -50,4 +55,12 @@ export class ExternalComponent implements OnInit, AfterViewInit {
     this.menuAction = !this.menuAction;
     console.log(this.menuAction);
   }
+
+  /***************Items count share data************* */
+  itemsCountShare() {
+    if((Array.isArray(this.itemsCount) && this.itemsCount.length)){
+      this._dataSharingService.changeItemsCount(this.itemsCount[0]);
+    }
+  }
 }
+

@@ -6,6 +6,7 @@ import { CorrespondenceService } from 'src/app/dashboard/services/correspondence
 import { BaseDashboardActiveComponent } from 'src/app/dashboard/base-classes/base-dashboard-active/base-dashboard-active.component';
 import { ErrorHandlerFctsService } from 'src/app/dashboard/services/error-handler-fcts.service';
 import { CorrespondenceShareService } from 'src/app/dashboard/services/correspondence-share.service';
+import { DataSharingService } from "../../services/data-sharing.service";
 
 @Component({
   selector: 'app-in-progress',
@@ -20,9 +21,10 @@ export class InProgressComponent extends BaseDashboardActiveComponent implements
       public dialogU: MatDialog,
       public correspondenceService: CorrespondenceService,
       public correspondenceShareService: CorrespondenceShareService,
-      public errorHandlerFctsService: ErrorHandlerFctsService
+      public errorHandlerFctsService: ErrorHandlerFctsService,
+      public dataSharingService: DataSharingService
     ) {
-      super(router, dialogU, correspondenceService, correspondenceShareService, errorHandlerFctsService);
+      super(router, dialogU, correspondenceService, correspondenceShareService, errorHandlerFctsService, dataSharingService);
       this.reportType = 'ExtInbAck';
     }
 

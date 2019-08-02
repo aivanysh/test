@@ -20,6 +20,11 @@ import { ConfirmationDialogComponent } from '../../confirmation-dialog/confirmat
 import { TransferReplyDialogComponent } from '../../transfer-reply-dialog/transfer-reply-dialog.component';
 import { CompleteDialogComponent } from '../../complete-dialog/complete-dialog.component';
 
+/**************test************ */
+import { DataSharingService } from "../../services/data-sharing.service";
+import { MenuCountInt, MenuItemsInfo} from "../../services/data-sharing.model"
+/****************************** */
+
 @Component({
   selector: 'app-new-intinbound',
   templateUrl: './new-intinbound.component.html',
@@ -76,12 +81,18 @@ export class NewIntInboundComponent implements OnInit {
   searchExtOrgFieldShow: boolean;
   searchSenderDeptFieldShow: boolean;
   searchRecipientDeptFieldShow: boolean;
-
+  /**************test************ */
+  itemsCount: MenuCountInt;
+  fullPageNumber: string;
+  /***************************** */
 
   constructor(
     // private route: ActivatedRoute,
     public router: Router,
     public dialogU: MatDialog,
+        /**************test************ */
+        private _dataSharingService: DataSharingService,
+        /***************************** */
     public correspondenceService: CorrespondenceService,
     public correspondenceShareService: CorrespondenceShareService,
     public errorHandlerFctsService: ErrorHandlerFctsService
@@ -94,6 +105,20 @@ export class NewIntInboundComponent implements OnInit {
     this.searchRecipientDeptFieldShow = true;
     this.searchSenderDeptFieldShow = true;
     this.getPage(1);
+    this.setItemCount();
+  }
+
+  setItemCount(){
+    this._dataSharingService.currentItemsCount.subscribe(itemsCount => {
+      this.itemsCount = itemsCount;
+      if(typeof this.itemsCount != 'undefined'){
+        if(Array.isArray(this.itemsCount.inbounds)){
+          this.itemsCount.inbounds.forEach((element)=>{
+            element.Title == "New" ? this.fullPageNumber = element.Count : null
+          })
+        } 
+      }
+    })
   }
 
   onSelect(correspondData: Correspondence): void {
